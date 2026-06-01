@@ -1,1 +1,1111 @@
-# journal
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дикая Женщина — Дневник Тени</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --earth: #2C1810;
+    --bark: #5C3A1E;
+    --moss: #4A5240;
+    --blood: #8B2020;
+    --sand: #C4A882;
+    --cream: #F5EFE6;
+    --bone: #E8DDD0;
+    --light-bg: #FAF6F1;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--light-bg);
+    color: var(--earth);
+    min-height: 100vh;
+  }
+
+  /* COVER */
+  .cover {
+    min-height: 100vh;
+    background: var(--earth);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(139,32,32,0.25) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 70%, rgba(74,82,64,0.2) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(196,168,130,0.05) 0%, transparent 70%);
+  }
+
+  .cover-symbol {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 1.5rem;
+    position: relative;
+    animation: fadeUp 1.2s ease both;
+  }
+
+  .cover h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 6vw, 3.5rem);
+    font-weight: 300;
+    color: var(--cream);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.15;
+    position: relative;
+    animation: fadeUp 1.2s 0.2s ease both;
+  }
+
+  .cover h1 em {
+    display: block;
+    font-style: italic;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: var(--sand);
+    letter-spacing: 0.2em;
+    margin-top: 0.5rem;
+  }
+
+  .cover-ornament {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.8rem 0;
+    position: relative;
+    animation: fadeUp 1.2s 0.3s ease both;
+  }
+
+  .cover-ornament-line {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--sand));
+  }
+
+  .cover-ornament-line:last-child {
+    background: linear-gradient(90deg, var(--sand), transparent);
+  }
+
+  .cover-ornament-dot {
+    width: 6px; height: 6px;
+    background: var(--sand);
+    border-radius: 50%;
+  }
+
+  .cover p {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(245,239,230,0.45);
+    position: relative;
+    animation: fadeUp 1.2s 0.4s ease both;
+  }
+
+  .cover-btn {
+    margin-top: 3rem;
+    padding: 0.9rem 2.5rem;
+    border: 1px solid rgba(196,168,130,0.4);
+    background: transparent;
+    color: var(--sand);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 1px;
+    transition: all 0.3s;
+    position: relative;
+    animation: fadeUp 1.2s 0.6s ease both;
+  }
+
+  .cover-btn:hover {
+    background: rgba(196,168,130,0.1);
+    border-color: var(--sand);
+    color: var(--cream);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* MAIN LAYOUT */
+  .app {
+    display: none;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 0 4rem;
+  }
+
+  .app.visible { display: block; }
+
+  /* NAV */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--earth);
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    box-shadow: 0 2px 20px rgba(44,24,16,0.15);
+  }
+  .nav::-webkit-scrollbar { display: none; }
+
+  .nav-tab {
+    flex: 0 0 auto;
+    padding: 1rem 1.4rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: rgba(245,239,230,0.4);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-tab:hover { color: rgba(245,239,230,0.75); }
+
+  .nav-tab.active {
+    color: var(--sand);
+    border-bottom-color: var(--sand);
+  }
+
+  /* PAGES */
+  .page {
+    display: none;
+    padding: 2.5rem 2rem 3rem;
+    min-height: 80vh;
+    animation: pageFade 0.4s ease;
+  }
+
+  .page.active { display: block; }
+
+  @keyframes pageFade {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .page-header {
+    margin-bottom: 0.5rem;
+  }
+
+  .page-eyebrow {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sand);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 300;
+    color: var(--earth);
+    line-height: 1.2;
+  }
+
+  .page-title em { font-style: italic; color: var(--bark); }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 1.2rem 0 1.8rem;
+  }
+
+  .divider-line { flex: 1; height: 1px; background: var(--sand); opacity: 0.4; }
+  .divider-dot { width: 4px; height: 4px; background: var(--sand); border-radius: 50%; opacity: 0.6; }
+
+  /* TEXT BLOCKS */
+  .intro-text {
+    font-size: 0.93rem;
+    line-height: 1.85;
+    color: var(--bark);
+    font-weight: 300;
+    margin-bottom: 1.8rem;
+  }
+
+  .intro-text strong { font-weight: 500; color: var(--earth); }
+
+  .block-light {
+    border-left: 3px solid var(--moss);
+    padding: 1rem 1.3rem;
+    background: rgba(74,82,64,0.05);
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 1.2rem;
+  }
+
+  .block-shadow {
+    border-left: 3px solid var(--blood);
+    padding: 1rem 1.3rem;
+    background: rgba(139,32,32,0.04);
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 1.2rem;
+  }
+
+  .block-shadow-dark {
+    border-left: 3px solid var(--bark);
+    padding: 1rem 1.3rem;
+    background: rgba(92,58,30,0.05);
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 1.2rem;
+  }
+
+  .block-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .block-light .block-label { color: var(--moss); }
+  .block-shadow .block-label { color: var(--blood); }
+  .block-shadow-dark .block-label { color: var(--bark); }
+
+  .block-light p, .block-shadow p, .block-shadow-dark p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--earth);
+    font-weight: 300;
+  }
+
+  /* QUESTIONS */
+  .q-item {
+    margin-bottom: 1.8rem;
+  }
+
+  .q-label {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--earth);
+    margin-bottom: 0.6rem;
+  }
+
+  .q-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--sand);
+    min-width: 22px;
+    padding-top: 1px;
+  }
+
+  .q-area {
+    width: 100%;
+    min-height: 75px;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid rgba(196,168,130,0.5);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.88rem;
+    color: var(--earth);
+    line-height: 1.8;
+    padding: 0.5rem 0;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.25s;
+  }
+
+  .q-area::placeholder { color: rgba(92,58,30,0.28); font-style: italic; }
+  .q-area:focus { border-bottom-color: var(--blood); }
+
+  /* SAVE BTN */
+  .save-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 0.75rem 2rem;
+    background: var(--earth);
+    color: var(--cream);
+    border: none;
+    border-radius: 1px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+
+  .save-btn:hover { background: var(--blood); }
+  .save-btn.saved { background: var(--moss); }
+
+  .save-note {
+    display: none;
+    font-size: 0.8rem;
+    color: var(--moss);
+    margin-top: 0.6rem;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* BODY MAP */
+  .body-zones {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-width: 320px;
+    margin: 0 auto 1.8rem;
+  }
+
+  .body-zone {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .zone-name {
+    font-size: 0.82rem;
+    color: var(--bark);
+    width: 110px;
+    text-align: right;
+    font-weight: 300;
+  }
+
+  .zone-bar-wrap {
+    flex: 1;
+    height: 6px;
+    background: rgba(196,168,130,0.18);
+    border-radius: 3px;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .zone-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--moss), var(--blood));
+    border-radius: 3px;
+    transition: width 0.35s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+  }
+
+  .zone-pct {
+    font-size: 0.72rem;
+    color: var(--sand);
+    width: 28px;
+    text-align: left;
+  }
+
+  /* PHRASES */
+  .phrase-list { list-style: none; }
+
+  .phrase-item {
+    padding: 0.85rem 1.1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid rgba(196,168,130,0.3);
+    border-radius: 3px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--bark);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .phrase-item:hover {
+    border-color: var(--blood);
+    color: var(--blood);
+    background: rgba(139,32,32,0.03);
+    padding-left: 1.4rem;
+  }
+
+  .phrase-item.open {
+    border-color: var(--blood);
+    color: var(--blood);
+    background: rgba(139,32,32,0.03);
+  }
+
+  .phrase-dash { color: var(--sand); }
+
+  .phrase-expand {
+    display: none;
+    padding: 0.8rem 0 0.5rem 1.8rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .phrase-expand.open { display: block; }
+
+  /* PRACTICES */
+  .practice-card {
+    background: var(--earth);
+    border-radius: 6px;
+    padding: 1.5rem 1.6rem;
+    margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .practice-card::after {
+    content: '';
+    position: absolute;
+    right: -24px; bottom: -24px;
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: rgba(196,168,130,0.07);
+  }
+
+  .practice-tag {
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sand);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .practice-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 0.6rem;
+  }
+
+  .practice-card p {
+    font-size: 0.85rem;
+    line-height: 1.78;
+    color: rgba(245,239,230,0.72);
+    font-weight: 300;
+    position: relative;
+  }
+
+  /* MOOD */
+  .mood-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .mood-btn {
+    padding: 0.38rem 0.9rem;
+    border: 1px solid rgba(196,168,130,0.35);
+    border-radius: 20px;
+    background: transparent;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    color: var(--bark);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .mood-btn:hover, .mood-btn.sel {
+    background: var(--earth);
+    color: var(--cream);
+    border-color: var(--earth);
+  }
+
+  /* WEEK TRACKER */
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    margin-bottom: 1.5rem;
+  }
+
+  .day-cell {
+    aspect-ratio: 1;
+    border: 1px solid rgba(196,168,130,0.35);
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+    gap: 2px;
+  }
+
+  .day-cell:hover { border-color: var(--blood); }
+
+  .day-cell.done {
+    background: var(--earth);
+    border-color: var(--earth);
+  }
+
+  .day-name-sm {
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sand);
+  }
+
+  .day-cell.done .day-name-sm { color: rgba(245,239,230,0.5); }
+
+  .day-check { font-size: 0.78rem; color: var(--sand); }
+
+  /* QUOTE BLOCK */
+  .quote-block {
+    padding: 1.5rem;
+    background: var(--earth);
+    border-radius: 6px;
+    text-align: center;
+    margin: 1.5rem 0;
+  }
+
+  .quote-block p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--sand);
+    line-height: 1.75;
+  }
+
+  .quote-block p span { color: var(--cream); }
+
+  /* RESOURCE */
+  .resource-card {
+    padding: 1.1rem 1.3rem;
+    border: 1px solid rgba(74,82,64,0.25);
+    border-radius: 6px;
+    background: rgba(74,82,64,0.04);
+    margin-bottom: 1.1rem;
+  }
+
+  .resource-card h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--moss);
+    margin-bottom: 0.5rem;
+  }
+
+  .resource-card p {
+    font-size: 0.87rem;
+    line-height: 1.72;
+    color: var(--earth);
+    font-weight: 300;
+  }
+
+  .date-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1.2rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(196,168,130,0.25);
+    flex-wrap: wrap;
+  }
+
+  .small-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sand);
+    white-space: nowrap;
+  }
+
+  .date-input {
+    border: none;
+    border-bottom: 1px solid var(--sand);
+    background: transparent;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.88rem;
+    color: var(--earth);
+    outline: none;
+    padding: 0.2rem 0;
+    width: 150px;
+  }
+
+  /* PROGRESS */
+  .progress-bar-wrap {
+    height: 3px;
+    background: rgba(196,168,130,0.15);
+    position: sticky;
+    top: 56px;
+    z-index: 99;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: var(--blood);
+    transition: width 0.3s ease;
+    width: 20%;
+  }
+
+  @media (max-width: 600px) {
+    .page { padding: 2rem 1.2rem 3rem; }
+    .nav-tab { padding: 0.9rem 1rem; font-size: 0.65rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover" id="cover">
+  <span class="cover-symbol">🐺</span>
+  <h1>Дикая Женщина<em>Дневник Тени</em></h1>
+  <div class="cover-ornament">
+    <div class="cover-ornament-line"></div>
+    <div class="cover-ornament-dot"></div>
+    <div class="cover-ornament-line"></div>
+  </div>
+  <p>Корневой центр · Возвращение к себе</p>
+  <button class="cover-btn" onclick="enterJournal()">Войти в дневник →</button>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+  <nav class="nav">
+    <button class="nav-tab active" onclick="showPage('shadow', this)">🔴 Тень</button>
+    <button class="nav-tab" onclick="showPage('body', this)">🫀 Тело</button>
+    <button class="nav-tab" onclick="showPage('practice', this)">🌿 Практика</button>
+    <button class="nav-tab" onclick="showPage('evening', this)">🌙 Вечер</button>
+    <button class="nav-tab" onclick="showPage('resource', this)">✨ Ресурс</button>
+  </nav>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+
+  <!-- PAGE: SHADOW -->
+  <div class="page active" id="shadow">
+    <div class="page-header">
+      <span class="page-eyebrow">Корневой центр</span>
+      <h2 class="page-title"><em>Архетип:</em> Дикая Женщина</h2>
+    </div>
+    <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+
+    <p class="intro-text">Корневой центр — это <strong>основа твоей жизненности</strong>. Здесь живёт интуиция, сексуальность, связь с телом и с землёй. Когда этот центр заморожен — замерзает вся жизнь. Этот дневник — не про правильные ответы. Это разговор с той частью тебя, которую ты давно не слышала.</p>
+
+    <div class="block-light">
+      <div class="block-label">Свет архетипа</div>
+      <p>Жизненность · Интуиция · Сексуальность · Связь с телом · Творчество · Свобода</p>
+    </div>
+
+    <div class="block-shadow">
+      <div class="block-label">Тень подавления</div>
+      <p>Депрессия · Онемение · Потеря желания · Хроническая усталость · «Я не живая»</p>
+    </div>
+
+    <div class="block-shadow-dark">
+      <div class="block-label">Тень захвата</div>
+      <p>Хаос · Разрушительность · Импульсивность · Зависимость от интенсивности</p>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+
+    <div class="q-item">
+      <div class="q-label"><span class="q-num">1.</span><span>Когда ты последний раз чувствовала себя по-настоящему живой? Что тогда происходило?</span></div>
+      <textarea class="q-area" placeholder="Пиши без цензуры..." data-key="s1"></textarea>
+    </div>
+    <div class="q-item">
+      <div class="q-label"><span class="q-num">2.</span><span>Что ты запрещаешь себе хотеть? Какое желание кажется «слишком много» или «неприличным»?</span></div>
+      <textarea class="q-area" placeholder="Позволь себе честность..." data-key="s2"></textarea>
+    </div>
+    <div class="q-item">
+      <div class="q-label"><span class="q-num">3.</span><span>В каких ситуациях ты «умираешь» — теряешь себя, становишься удобной, правильной, незаметной?</span></div>
+      <textarea class="q-area" placeholder="Вспомни конкретные моменты..." data-key="s3"></textarea>
+    </div>
+
+    <button class="save-btn" onclick="savePage(this, 'shadow')">Сохранить ответы</button>
+    <p class="save-note" id="save-shadow">Записано. Твоя честность — это уже акт возвращения к себе.</p>
+  </div>
+
+  <!-- PAGE: BODY -->
+  <div class="page" id="body">
+    <div class="page-header">
+      <span class="page-eyebrow">Присутствие</span>
+      <h2 class="page-title"><em>Карта</em> тела</h2>
+    </div>
+    <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+
+    <p class="intro-text">Дикая Женщина живёт в теле. Тело не лжёт. <strong>Нажимай на каждую зону</strong> — отметь насколько ты её чувствуешь прямо сейчас. Потом ответь на вопросы.</p>
+
+    <span class="small-label" style="display:block; text-align:center; margin-bottom:1rem;">Шкала присутствия — нажимай для изменения</span>
+
+    <div class="body-zones" id="bodyZones">
+      <div class="body-zone">
+        <span class="zone-name">Голова</span>
+        <div class="zone-bar-wrap" onclick="cycleZone(this)"><div class="zone-bar"></div></div>
+        <span class="zone-pct">0%</span>
+      </div>
+      <div class="body-zone">
+        <span class="zone-name">Горло</span>
+        <div class="zone-bar-wrap" onclick="cycleZone(this)"><div class="zone-bar"></div></div>
+        <span class="zone-pct">0%</span>
+      </div>
+      <div class="body-zone">
+        <span class="zone-name">Грудь / сердце</span>
+        <div class="zone-bar-wrap" onclick="cycleZone(this)"><div class="zone-bar"></div></div>
+        <span class="zone-pct">0%</span>
+      </div>
+      <div class="body-zone">
+        <span class="zone-name">Живот</span>
+        <div class="zone-bar-wrap" onclick="cycleZone(this)"><div class="zone-bar"></div></div>
+        <span class="zone-pct">0%</span>
+      </div>
+      <div class="body-zone">
+        <span class="zone-name">Таз / корень</span>
+        <div class="zone-bar-wrap" onclick="cycleZone(this)"><div class="zone-bar"></div></div>
+        <span class="zone-pct">0%</span>
+      </div>
+      <div class="body-zone">
+        <span class="zone-name">Ноги / земля</span>
+        <div class="zone-bar-wrap" onclick="cycleZone(this)"><div class="zone-bar"></div></div>
+        <span class="zone-pct">0%</span>
+      </div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+
+    <div class="q-item">
+      <div class="q-label"><span class="q-num">4.</span><span>Где в теле сейчас живёт напряжение, онемение или пустота? Что там хочет быть услышанным?</span></div>
+      <textarea class="q-area" placeholder="Опиши ощущения, не анализируя их..." data-key="b1"></textarea>
+    </div>
+    <div class="q-item">
+      <div class="q-label"><span class="q-num">5.</span><span>Когда твоё тело говорит «нет», но ты продолжаешь? Приведи последний пример.</span></div>
+      <textarea class="q-area" placeholder="Тело всегда знает раньше ума..." data-key="b2"></textarea>
+    </div>
+    <div class="q-item">
+      <div class="q-label"><span class="q-num">6.</span><span>Что даёт твоему телу подлинное удовольствие — не «правильное», а настоящее?</span></div>
+      <textarea class="q-area" placeholder="Позволь себе признать это..." data-key="b3"></textarea>
+    </div>
+
+    <button class="save-btn" onclick="savePage(this, 'body')">Сохранить</button>
+    <p class="save-note" id="save-body">Записано. Тело слышит тебя.</p>
+  </div>
+
+  <!-- PAGE: PRACTICE -->
+  <div class="page" id="practice">
+    <div class="page-header">
+      <span class="page-eyebrow">Работа с тенью</span>
+      <h2 class="page-title"><em>Практика</em> «Что мне нельзя?»</h2>
+    </div>
+    <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+
+    <p class="intro-text">Нажми на фразу — она откроется для ответа. Пиши <strong>быстро, без цензуры</strong>. Первое что придёт — там и живёт Тень.</p>
+
+    <ul class="phrase-list" id="phraseList">
+      <li class="phrase-item" onclick="togglePhrase(this, 'p0')">
+        <span class="phrase-dash">—</span> Мне нельзя быть…
+      </li>
+      <div class="phrase-expand" id="p0">
+        <textarea class="q-area" placeholder="Продолжи фразу..." data-key="p0" style="min-height:65px;"></textarea>
+      </div>
+
+      <li class="phrase-item" onclick="togglePhrase(this, 'p1')">
+        <span class="phrase-dash">—</span> Женщина не должна…
+      </li>
+      <div class="phrase-expand" id="p1">
+        <textarea class="q-area" placeholder="Продолжи фразу..." data-key="p1" style="min-height:65px;"></textarea>
+      </div>
+
+      <li class="phrase-item" onclick="togglePhrase(this, 'p2')">
+        <span class="phrase-dash">—</span> Если я проявлю силу…
+      </li>
+      <div class="phrase-expand" id="p2">
+        <textarea class="q-area" placeholder="Продолжи фразу..." data-key="p2" style="min-height:65px;"></textarea>
+      </div>
+
+      <li class="phrase-item" onclick="togglePhrase(this, 'p3')">
+        <span class="phrase-dash">—</span> Если я скажу правду…
+      </li>
+      <div class="phrase-expand" id="p3">
+        <textarea class="q-area" placeholder="Продолжи фразу..." data-key="p3" style="min-height:65px;"></textarea>
+      </div>
+
+      <li class="phrase-item" onclick="togglePhrase(this, 'p4')">
+        <span class="phrase-dash">—</span> Если я стану заметной…
+      </li>
+      <div class="phrase-expand" id="p4">
+        <textarea class="q-area" placeholder="Продолжи фразу..." data-key="p4" style="min-height:65px;"></textarea>
+      </div>
+
+      <li class="phrase-item" onclick="togglePhrase(this, 'p5')">
+        <span class="phrase-dash">—</span> Если я перестану быть удобной…
+      </li>
+      <div class="phrase-expand" id="p5">
+        <textarea class="q-area" placeholder="Продолжи фразу..." data-key="p5" style="min-height:65px;"></textarea>
+      </div>
+
+      <li class="phrase-item" onclick="togglePhrase(this, 'p6')">
+        <span class="phrase-dash">—</span> Если я покажу злость…
+      </li>
+      <div class="phrase-expand" id="p6">
+        <textarea class="q-area" placeholder="Продолжи фразу..." data-key="p6" style="min-height:65px;"></textarea>
+      </div>
+
+      <li class="phrase-item" onclick="togglePhrase(this, 'p7')">
+        <span class="phrase-dash">—</span> Если я перестану заботиться обо всех…
+      </li>
+      <div class="phrase-expand" id="p7">
+        <textarea class="q-area" placeholder="Продолжи фразу..." data-key="p7" style="min-height:65px;"></textarea>
+      </div>
+    </ul>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+
+    <div class="practice-card">
+      <span class="practice-tag">Практика тела</span>
+      <h3>Тряска — разморозка дикости</h3>
+      <p>Встань. Согни колени. Начни мелко трясти ногами, потом всё тело. 3–5 минут. Никакого контроля — тело трясёт само. Это древний механизм разрядки напряжения, который мы подавили вместе с Дикой Женщиной.</p>
+    </div>
+
+    <div class="practice-card">
+      <span class="practice-tag">Практика голоса</span>
+      <h3>Звук без слов</h3>
+      <p>Закрой глаза. Позволь телу издать звук — любой. Рык, вой, стон, выдох. Не пой красиво. Пусть выйдет то, что сидит в горле. Горловой центр — это выход для того, что подавлено в корне.</p>
+    </div>
+
+    <div class="practice-card">
+      <span class="practice-tag">Практика с землёй</span>
+      <h3>Заземление через стопы</h3>
+      <p>Стань босиком на пол. Почувствуй опору под стопами. Надави. Дыши в живот. Скажи вслух: «Я здесь. Я живая. Моё тело — мой дом.» Корневой центр восстанавливается через физический контакт с землёй.</p>
+    </div>
+
+    <button class="save-btn" onclick="savePage(this, 'practice')">Сохранить ответы</button>
+    <p class="save-note" id="save-practice">Записано. Тень увидена.</p>
+  </div>
+
+  <!-- PAGE: EVENING -->
+  <div class="page" id="evening">
+    <div class="page-header">
+      <span class="page-eyebrow">Ежевечерний ритуал</span>
+      <h2 class="page-title"><em>Вечерний</em> дневник</h2>
+    </div>
+    <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+
+    <div class="date-row">
+      <span class="small-label">Дата</span>
+      <input type="date" class="date-input" id="journalDate">
+    </div>
+
+    <span class="small-label" style="display:block; margin-bottom:0.7rem;">Как ты сейчас?</span>
+    <div class="mood-wrap">
+      <button class="mood-btn" onclick="this.classList.toggle('sel')">живая</button>
+      <button class="mood-btn" onclick="this.classList.toggle('sel')">онемевшая</button>
+      <button class="mood-btn" onclick="this.classList.toggle('sel')">злая</button>
+      <button class="mood-btn" onclick="this.classList.toggle('sel')">грустная</button>
+      <button class="mood-btn" onclick="this.classList.toggle('sel')">тревожная</button>
+      <button class="mood-btn" onclick="this.classList.toggle('sel')">спокойная</button>
+      <button class="mood-btn" onclick="this.classList.toggle('sel')">усталая</button>
+      <button class="mood-btn" onclick="this.classList.toggle('sel')">желанная</button>
+      <button class="mood-btn" onclick="this.classList.toggle('sel')">в теле</button>
+      <button class="mood-btn" onclick="this.classList.toggle('sel')">далеко от себя</button>
+    </div>
+
+    <div class="q-item">
+      <div class="q-label"><span class="q-num">1.</span><span>Где сегодня я предала себя?</span></div>
+      <textarea class="q-area" placeholder="Любой момент, когда ты пошла против себя..." data-key="e1"></textarea>
+    </div>
+    <div class="q-item">
+      <div class="q-label"><span class="q-num">2.</span><span>Где я была настоящей?</span></div>
+      <textarea class="q-area" placeholder="Хоть маленький момент подлинности..." data-key="e2"></textarea>
+    </div>
+    <div class="q-item">
+      <div class="q-label"><span class="q-num">3.</span><span>Что я подавила сегодня?</span></div>
+      <textarea class="q-area" placeholder="Эмоция, желание, слово, движение..." data-key="e3"></textarea>
+    </div>
+    <div class="q-item">
+      <div class="q-label"><span class="q-num">4.</span><span>Где я уменьшилась?</span></div>
+      <textarea class="q-area" placeholder="Когда стала меньше, чем ты есть..." data-key="e4"></textarea>
+    </div>
+    <div class="q-item">
+      <div class="q-label"><span class="q-num">5.</span><span>Что я чувствовала, но не выразила?</span></div>
+      <textarea class="q-area" placeholder="Что осталось невысказанным..." data-key="e5"></textarea>
+    </div>
+    <div class="q-item">
+      <div class="q-label"><span class="q-num">6.</span><span>Какую часть себя я сегодня испугалась?</span></div>
+      <textarea class="q-area" placeholder="Какая твоя часть казалась слишком опасной..." data-key="e6"></textarea>
+    </div>
+
+    <div class="quote-block">
+      <p>«Тень — это не враг.<br><span>Это часть тебя, которая ждёт разрешения жить.»</span></p>
+    </div>
+
+    <button class="save-btn" onclick="savePage(this, 'evening')">Завершить день</button>
+    <p class="save-note" id="save-evening">День записан. Ты справляешься.</p>
+
+    <div class="divider" style="margin-top:2rem;"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+
+    <span class="small-label" style="display:block; margin-bottom:0.8rem;">Трекер недели — отмечай дни работы с дневником</span>
+    <div class="week-grid">
+      <div class="day-cell" onclick="toggleDay(this)"><span class="day-name-sm">Пн</span><span class="day-check">○</span></div>
+      <div class="day-cell" onclick="toggleDay(this)"><span class="day-name-sm">Вт</span><span class="day-check">○</span></div>
+      <div class="day-cell" onclick="toggleDay(this)"><span class="day-name-sm">Ср</span><span class="day-check">○</span></div>
+      <div class="day-cell" onclick="toggleDay(this)"><span class="day-name-sm">Чт</span><span class="day-check">○</span></div>
+      <div class="day-cell" onclick="toggleDay(this)"><span class="day-name-sm">Пт</span><span class="day-check">○</span></div>
+      <div class="day-cell" onclick="toggleDay(this)"><span class="day-name-sm">Сб</span><span class="day-check">○</span></div>
+      <div class="day-cell" onclick="toggleDay(this)"><span class="day-name-sm">Вс</span><span class="day-check">○</span></div>
+    </div>
+  </div>
+
+  <!-- PAGE: RESOURCE -->
+  <div class="page" id="resource">
+    <div class="page-header">
+      <span class="page-eyebrow">Интеграция</span>
+      <h2 class="page-title">Взять <em>ресурс</em> из Тени</h2>
+    </div>
+    <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+
+    <p class="intro-text">Тень — это не патология. Это <strong>подавленная жизненность</strong>. Всё, что ты запрещала себе — хранит в себе ровно столько же энергии, сколько ты потратила на подавление. Здесь ты возвращаешь её обратно.</p>
+
+    <div class="resource-card">
+      <h4>Из подавления — в жизнь</h4>
+      <p>Депрессия и онемение — это не слабость. Это Дикая Женщина, которая устала бороться. За каждым «я не хочу ничего» стоит подавленное «я хочу слишком много, но боюсь». Ресурс здесь — разрешение хотеть.</p>
+    </div>
+
+    <div class="resource-card">
+      <h4>Из хаоса — в силу</h4>
+      <p>Импульсивность и разрушительность — это необузданная жизненная сила без направления. Когда она получает форму через творчество, тело, честность — становится огромной двигательной энергией.</p>
+    </div>
+
+    <div class="q-item" style="margin-top:1.5rem;">
+      <div class="q-label"><span class="q-num">→</span><span>Что в твоей Тени на самом деле является силой, которой ты боишься?</span></div>
+      <textarea class="q-area" placeholder="Злость = сила границ. Жадность = знание своей ценности. Эгоизм = контакт с собой..." data-key="r1"></textarea>
+    </div>
+    <div class="q-item">
+      <div class="q-label"><span class="q-num">→</span><span>Если бы ты разрешила себе эту силу — как изменилась бы твоя жизнь?</span></div>
+      <textarea class="q-area" placeholder="Позволь себе помечтать без стыда..." data-key="r2"></textarea>
+    </div>
+    <div class="q-item">
+      <div class="q-label"><span class="q-num">→</span><span>Один конкретный шаг — что ты сделаешь на этой неделе, чтобы позволить себе быть живой?</span></div>
+      <textarea class="q-area" placeholder="Конкретно. Телесно. По-настоящему..." data-key="r3"></textarea>
+    </div>
+
+    <div class="quote-block">
+      <p>Дикая Женщина не разрушает.<br><span>Она разрушает то, что уже мертво.<br>Чтобы могло вырасти живое.</span></p>
+    </div>
+
+    <button class="save-btn" onclick="savePage(this, 'resource')">Сохранить намерение</button>
+    <p class="save-note" id="save-resource">Намерение записано. Тело помнит.</p>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = 'wildwoman_journal_v1';
+
+  function enterJournal() {
+    document.getElementById('cover').style.display = 'none';
+    const app = document.getElementById('app');
+    app.classList.add('visible');
+    loadAll();
+    updateProgress();
+  }
+
+  function showPage(id, tab) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    tab.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    updateProgress();
+  }
+
+  const zoneSteps = [0, 25, 50, 75, 100];
+
+  function cycleZone(wrap) {
+    const bar = wrap.querySelector('.zone-bar');
+    const pct = wrap.parentElement.querySelector('.zone-pct');
+    const cur = parseInt(pct.textContent);
+    const idx = zoneSteps.indexOf(cur);
+    const next = zoneSteps[(idx + 1) % zoneSteps.length];
+    bar.style.width = next + '%';
+    pct.textContent = next + '%';
+  }
+
+  function togglePhrase(item, id) {
+    const box = document.getElementById(id);
+    const isOpen = box.classList.contains('open');
+    document.querySelectorAll('.phrase-expand').forEach(e => e.classList.remove('open'));
+    document.querySelectorAll('.phrase-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) {
+      box.classList.add('open');
+      item.classList.add('open');
+      setTimeout(() => box.querySelector('textarea').focus(), 100);
+    }
+  }
+
+  function toggleDay(cell) {
+    cell.classList.toggle('done');
+    cell.querySelector('.day-check').textContent = cell.classList.contains('done') ? '✓' : '○';
+    saveAll();
+  }
+
+  function savePage(btn, page) {
+    saveAll();
+    btn.classList.add('saved');
+    btn.textContent = '✓ Сохранено';
+    const note = document.getElementById('save-' + page);
+    if (note) note.style.display = 'block';
+    setTimeout(() => {
+      btn.classList.remove('saved');
+      btn.textContent = btn.dataset.orig;
+    }, 3000);
+  }
+
+  document.querySelectorAll('.save-btn').forEach(b => b.dataset.orig = b.textContent);
+
+  function saveAll() {
+    const data = {};
+    document.querySelectorAll('[data-key]').forEach(el => {
+      data[el.dataset.key] = el.value;
+    });
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+  }
+
+  function loadAll() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      document.querySelectorAll('[data-key]').forEach(el => {
+        if (data[el.dataset.key]) el.value = data[el.dataset.key];
+      });
+    } catch(e) {}
+  }
+
+  document.querySelectorAll('.q-area').forEach(el => {
+    el.addEventListener('input', saveAll);
+  });
+
+  function updateProgress() {
+    const pages = ['shadow','body','practice','evening','resource'];
+    const active = document.querySelector('.page.active');
+    const idx = pages.indexOf(active ? active.id : 'shadow');
+    document.getElementById('progressBar').style.width = ((idx + 1) / pages.length * 100) + '%';
+  }
+
+  document.getElementById('journalDate').value = new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>
